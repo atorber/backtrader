@@ -24,9 +24,7 @@ backtrader
    :scale: 100%
    :target: https://pypi.python.org/pypi/backtrader/
 
-**中文文档**
-
-  - `中文文档 <README-CN.rst>`_
+`中文文档 <README-CN.rst>`_
 
 **Yahoo API Note**:
 
