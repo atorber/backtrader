@@ -32,7 +32,7 @@ backtrader
 
   问题反馈系统（实际上曾经）经常被滥用，用来询问关于示例的建议。
 
-对于**反馈/问题/...**请使用 `社区 <https://community.backtrader.com>`_
+对于 **反馈/问题/...** 请使用 `社区 <https://community.backtrader.com>`_
 
 这里是一个简单移动平均线交叉的代码片段。可以用几种不同的方式实现。使用文档（和示例）吧，卢克！
 ::
@@ -66,8 +66,8 @@ backtrader
   - 实时数据源和交易支持
 
     - Interactive Brokers（需要 ``IbPy``，安装 ``pytz`` 会大大受益）
-    - *Visual Chart*（需要 ``comtypes`` 的分支版本，直到拉取请求集成到发布版本中，安装 ``pytz`` 会受益）
-    - *Oanda*（需要 ``oandapy``）（仅支持 REST API - v20 在实现时不支持流式传输）
+    - Visual Chart（需要 ``comtypes`` 的分支版本，直到拉取请求集成到发布版本中，安装 ``pytz`` 会受益）
+    - Oanda（需要 ``oandapy``）（仅支持 REST API - v20 在实现时不支持流式传输）
 
   - 从 csv/文件、在线源或 *pandas* 和 *blaze* 获取数据源
   - 数据过滤器，如将日线分解为块以模拟日内交易或使用 Renko 砖块
