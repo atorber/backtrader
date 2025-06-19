@@ -37,8 +37,8 @@ class St(bt.Strategy):
         limdays=3,
         limdays2=1000,
         hold=10,
-        usebracket=False,  # use order_target_size
-        switchp1p2=False,  # switch prices of order1 and order2
+        usebracket=False,  # 使用 order_target_size
+        switchp1p2=False,  # 切换 order1 和 order2 的价格
     )
 
     def notify_order(self, order):
@@ -60,14 +60,14 @@ class St(bt.Strategy):
         self.orefs = list()
 
         if self.p.usebracket:
-            print('-' * 5, 'Using buy_bracket')
+            print('-' * 5, '使用 buy_bracket')
 
     def next(self):
         if self.orefs:
-            return  # pending orders do nothing
+            return  # 待处理订单不执行任何操作
 
         if not self.position:
-            if self.cross > 0.0:  # crossing up
+            if self.cross > 0.0:  # 向上穿越
 
                 close = self.data.close[0]
                 p1 = close * (1.0 - self.p.limit)
@@ -87,7 +87,7 @@ class St(bt.Strategy):
                                   valid=valid1,
                                   transmit=False)
 
-                    print('{}: Oref {} / Buy at {}'.format(
+                    print('{}: Oref {} / 买入价格 {}'.format(
                         self.datetime.date(), o1.ref, p1))
 
                     o2 = self.sell(exectype=bt.Order.Stop,
@@ -96,7 +96,7 @@ class St(bt.Strategy):
                                    parent=o1,
                                    transmit=False)
 
-                    print('{}: Oref {} / Sell Stop at {}'.format(
+                    print('{}: Oref {} / 止损卖出价格 {}'.format(
                         self.datetime.date(), o2.ref, p2))
 
                     o3 = self.sell(exectype=bt.Order.Limit,
@@ -105,7 +105,7 @@ class St(bt.Strategy):
                                    parent=o1,
                                    transmit=True)
 
-                    print('{}: Oref {} / Sell Limit at {}'.format(
+                    print('{}: Oref {} / 限价卖出价格 {}'.format(
                         self.datetime.date(), o3.ref, p3))
 
                     self.orefs = [o1.ref, o2.ref, o3.ref]
@@ -118,9 +118,9 @@ class St(bt.Strategy):
 
                     self.orefs = [o.ref for o in os]
 
-        else:  # in the market
+        else:  # 在市场中有持仓
             if (len(self) - self.holdstart) >= self.p.hold:
-                pass  # do nothing in this case
+                pass  # 在这种情况下不执行任何操作
 
 
 def runstrat(args=None):
@@ -128,33 +128,33 @@ def runstrat(args=None):
 
     cerebro = bt.Cerebro()
 
-    # Data feed kwargs
+    # 数据源参数
     kwargs = dict()
 
-    # Parse from/to-date
+    # 解析开始/结束日期
     dtfmt, tmfmt = '%Y-%m-%d', 'T%H:%M:%S'
     for a, d in ((getattr(args, x), x) for x in ['fromdate', 'todate']):
         if a:
             strpfmt = dtfmt + tmfmt * ('T' in a)
             kwargs[d] = datetime.datetime.strptime(a, strpfmt)
 
-    # Data feed
+    # 数据源
     data0 = bt.feeds.BacktraderCSVData(dataname=args.data0, **kwargs)
     cerebro.adddata(data0)
 
-    # Broker
+    # 经纪人
     cerebro.broker = bt.brokers.BackBroker(**eval('dict(' + args.broker + ')'))
 
-    # Sizer
+    # 仓位管理器
     cerebro.addsizer(bt.sizers.FixedSize, **eval('dict(' + args.sizer + ')'))
 
-    # Strategy
+    # 策略
     cerebro.addstrategy(St, **eval('dict(' + args.strat + ')'))
 
-    # Execute
+    # 执行
     cerebro.run(**eval('dict(' + args.cerebro + ')'))
 
-    if args.plot:  # Plot if requested to
+    if args.plot:  # 如果请求则绘图
         cerebro.plot(**eval('dict(' + args.plot + ')'))
 
 
@@ -162,35 +162,35 @@ def parse_args(pargs=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description=(
-            'Sample Skeleton'
+            '样本框架'
         )
     )
 
     parser.add_argument('--data0', default='../../datas/2005-2006-day-001.txt',
-                        required=False, help='Data to read in')
+                        required=False, help='要读取的数据')
 
-    # Defaults for dates
+    # 日期默认值
     parser.add_argument('--fromdate', required=False, default='',
-                        help='Date[time] in YYYY-MM-DD[THH:MM:SS] format')
+                        help='YYYY-MM-DD[THH:MM:SS] 格式的日期[时间]')
 
     parser.add_argument('--todate', required=False, default='',
-                        help='Date[time] in YYYY-MM-DD[THH:MM:SS] format')
+                        help='YYYY-MM-DD[THH:MM:SS] 格式的日期[时间]')
 
     parser.add_argument('--cerebro', required=False, default='',
-                        metavar='kwargs', help='kwargs in key=value format')
+                        metavar='kwargs', help='key=value 格式的参数')
 
     parser.add_argument('--broker', required=False, default='',
-                        metavar='kwargs', help='kwargs in key=value format')
+                        metavar='kwargs', help='key=value 格式的参数')
 
     parser.add_argument('--sizer', required=False, default='',
-                        metavar='kwargs', help='kwargs in key=value format')
+                        metavar='kwargs', help='key=value 格式的参数')
 
     parser.add_argument('--strat', required=False, default='',
-                        metavar='kwargs', help='kwargs in key=value format')
+                        metavar='kwargs', help='key=value 格式的参数')
 
     parser.add_argument('--plot', required=False, default='',
                         nargs='?', const='{}',
-                        metavar='kwargs', help='kwargs in key=value format')
+                        metavar='kwargs', help='key=value 格式的参数')
 
     return parser.parse_args(pargs)
 
