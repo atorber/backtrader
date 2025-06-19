@@ -28,7 +28,7 @@ import backtrader.feeds as btfeeds
 import backtrader.indicators as btind
 from backtrader import ResamplerDaily, ResamplerWeekly, ResamplerMonthly
 from backtrader import ReplayerDaily, ReplayerWeekly, ReplayerMonthly
-from backtrader.utils import flushfile
+# from backtrader.utils import flushfile
 
 
 class SMAStrategy(bt.Strategy):
@@ -169,6 +169,8 @@ def runstrat():
     # Plot the result
     if args.plot:
         cerebro.plot(style='bar')
+
+    cerebro.plot()
 
 
 def parse_args():
