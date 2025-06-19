@@ -24,6 +24,10 @@ backtrader
    :scale: 100%
    :target: https://pypi.python.org/pypi/backtrader/
 
+**中文文档**
+
+  - `中文文档 <README-CN.rst>`_
+
 **Yahoo API Note**:
 
   [2018-11-16] After some testing it would seem that data downloads can be
